@@ -2,9 +2,9 @@
   import '../styles/global.css';
   import { fetchDefinitions, resetMemory, hasSeenAllWords } from '$lib/dataManager';
 
-  import SelectGame from '../components/SelectGame.svelte';
-  import Flashcard from '../components/Flashcard.svelte';
-  import { sets } from '$lib/dataManager';
+  import SelectGame from '../components/SelectGame.svelte'; // Importation de SelectGame.svelte
+  import Flashcard from '../components/Flashcard.svelte'; // Importation de Flashcard.svelte
+  import { sets } from '$lib/dataManager'; // On importe les 3 jeux ou set
 
   let selectedGame = null; // Cette variable sans valeur permet de choisir les "set" ou jeux
   let flashcards = []; // tableau pour les cartes 
@@ -39,7 +39,7 @@
   function handleValidation() {
     drawCard(); // On appelle la fonction drawCard()
     if (showPerformance) {
-      afficherPerformances();
+      afficherPerformances(); // on appelle cette fonction située ci-dessous
     }
     checkIfAllSeen();
   }
@@ -60,14 +60,14 @@
       if (key.startsWith("memory_")) {
         const setName = key.replace("memory_", "");
         const memory = JSON.parse(localStorage.getItem(key));
-        const mots = Object.entries(memory).map(([mot, defs]) => ({ mot, defs }));
-        performanceData.push({ setName, mots });
+        const mots = Object.entries(memory).map(([mot, defs]) => ({ mot, defs })); // La méthode Object.entries() renvoie un tableau des propriétés propres énumérables d'un objet dont la clé est une chaîne de caractères, sous la forme de paires [clé, valeur], dans le même ordre qu'une boucle for...in (la boucle for-in est différente car elle parcourt la chaîne des prototypes).
+        performanceData.push({ setName, mots }); // La méthode push() ajoute un ou plusieurs éléments à la fin d'un tableau et retourne la nouvelle taille du tableau
       }
     });
     showPerformance = true;
   }
 
-  function retourAccueil() {
+  function retourAccueil() { // Cette fonction nous permet de retourner à l'accueil avec le choix d'un jeu parmi les 3
     selectedGame = null;
     flashcards = [];
     currentCard = null;
@@ -97,8 +97,14 @@
 <div class="page">
   <h1>Flashcards App</h1>
 
+  <!-- 
+Dans svelte, les structures conditionnelles sont entre accolades ! 
+
+On a des gestions des événements avec event
+-->
+
   {#if !selectedGame}
-    <SelectGame on:gameSelected={event => onSelectGame(event.detail)} />
+    <SelectGame on:gameSelected={event => onSelectGame(event.detail)} /> 
   {:else}
     <div class="card-container">
       {#if currentCard}
@@ -131,7 +137,7 @@
     <button on:click={retourAccueil}>🏠 Retour à l'accueil</button>
   {/if}
 
-  {#if showPerformance}
+  {#if showPerformance}  
     <div class="performance">
       <h2>Performances enregistrées</h2>
       {#if performanceData.length === 0}
@@ -159,14 +165,4 @@
   {/if}
 </div>
 
-<style>
-  .performance {
-    margin-top: 2rem;
-    padding: 1rem;
-    border-top: 1px solid #ccc;
-  }
 
-  button {
-    margin: 0.5rem;
-  }
-</style>
