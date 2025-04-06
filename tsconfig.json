@@ -1,0 +1,23 @@
+{
+	"extends": "./.svelte-kit/tsconfig.json",
+	"compilerOptions": {
+	  "allowJs": true,
+	  "noImplicitAny": false,
+	  "checkJs": true,
+	  "esModuleInterop": true,
+	  "forceConsistentCasingInFileNames": true,
+	  "resolveJsonModule": true,
+	  "skipLibCheck": true,
+	  "sourceMap": true,
+	  "strict": true,
+	  "moduleResolution": "bundler"
+	},
+	"include": [
+	  "src/**/*",  // Inclut tous les fichiers dans le dossier `src` (les fichiers Svelte et TS)
+	  "node_modules/@sveltejs/kit/types/**/*.d.ts"  // Ajoute les types nécessaires pour SvelteKit
+	],
+	"exclude": [
+	  "node_modules"  // Exclut le dossier node_modules
+	]
+  }
+  
