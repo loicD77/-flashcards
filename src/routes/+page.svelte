@@ -113,8 +113,8 @@ function handleResetMemory() {
       {/if}
     </div>
 
-    <button on:click={afficherPerformances}>Afficher mes performances</button>
-    <button on:click={handleResetMemory}>Réinitialiser les performances</button>
+    <button on:click={afficherPerformances}>Afficher mes acquis</button>
+    <button on:click={handleResetMemory}>Réinitialiser les acquis</button>
     <button on:click={retourAccueil}>🏠 Retour à l'accueil</button>
      
   {/if}

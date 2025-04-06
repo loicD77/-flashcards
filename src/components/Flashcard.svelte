@@ -13,13 +13,13 @@
   $: if (definitions.length && setName && word) {
     const storedMemory = localStorage.getItem(`memory_${setName}`); // On récupère les items de la  base de données du navigateur
     const memory = storedMemory ? JSON.parse(storedMemory) : {};   // Si quelque chose est présent, on le transforme en objet avec JSON.parse, sinon on mets un objet vide. Avec un opérateur ternaire
-    previousDefs = memory[word] || [];  // Je regarde si y'a déjà des définitions que j’avais cochées pour ce mot
-    selectedDefinitions = definitions.map(def => previousDefs.includes(def)); // On a une fonctionné fléché à l'aide de map
+    previousDefs = memory[word] || [];  // On regarde si y'a déjà des définitions que j’avais cochées pour ce mot
+    selectedDefinitions = definitions.map(def => previousDefs.includes(def)); // On a une fonctionné fléché à l'aide de map qui créé un nouveau tableau pour les définitions
   }
 
   // 💾 Sauvegarde dans localStorage
   function saveToMemory() {
-    const selectedDefs = definitions.filter((_, index) => selectedDefinitions[index]);
+    const selectedDefs = definitions.filter((_, index) => selectedDefinitions[index]); // Ici la méthpde filter crée et retourne un nouveau tableau contenant tous les éléments du tableau d'origine (ici les définitions) qui remplissent une conditon déterminée par la fonction callback.
     const storedMemory = localStorage.getItem(`memory_${setName}`);
     const memory = storedMemory ? JSON.parse(storedMemory) : {};
     memory[word] = selectedDefs;
