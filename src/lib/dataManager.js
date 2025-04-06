@@ -1,5 +1,5 @@
 export const sets = {
-  animals: [
+  animals: [ // Premier jeu ou set, c'est un array avec un système de "clé : valeur, où la variable word va attraper 10 animaux"
     { word: 'cat' },
     { word: 'dog' },
     { word: 'lion' },
@@ -11,7 +11,7 @@ export const sets = {
     { word: 'bear' },
     { word: 'monkey' }
   ],
-  tech: [
+  tech: [ // Deuxième jeu ou set, c'est un array avec un système de "clé : valeur, où la variable word va attraper 10 éléments de tech"
     { word: 'computer' },
     { word: 'internet' },
     { word: 'software' },
@@ -23,7 +23,7 @@ export const sets = {
     { word: 'network' },
     { word: 'code' }
   ],
-  emotions: [
+  emotions: [ // Troisième jeu ou set, c'est un array avec un système de "clé : valeur, où la variable word va attraper 10 éléments d'émotions"
     { word: 'happy' },
     { word: 'sad' },
     { word: 'angry' },
@@ -37,17 +37,17 @@ export const sets = {
   ]
 };
 
-export function getSets() {
-  return Object.keys(sets);
-}
+export function getSets() { // Une fonction qui retourne la liste des noms des sets comme par exemple "animals", "tech" ou encore "emotions"
+  return Object.keys(sets);  
+ }
 
-export function getWords(setName) {
+export function getWords(setName) { // Une fonction qui retourne la liste des mots pour un set donné (via le parametre setName), ou un tableau vide (via [])  si le set n'existe pas
   return sets[setName] || [];
 }
 
-export function getRandomWord(setName) {
-  const words = getWords(setName);
-  return words[Math.floor(Math.random() * words.length)];
+export function getRandomWord(setName) {      // Une fonction qui retourne un mot aléatoire du set spécifié on utilise pour cela l'objet natif Math. .
+  const words = getWords(setName); 
+  return words[Math.floor(Math.random() * words.length)];// Avec la fonction Math.floor(x) (Selon la documentation https://developer.mozilla.org/) renvoie le plus grand entier qui est inférieur ou égal à un nombre x et la fonction Math.random() renvoie un nombre flottant pseudo-aléatoire compris dans l'intervalle [0, 1[
 }
 
 export async function fetchDefinitions(word) {
