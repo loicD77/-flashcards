@@ -81,7 +81,7 @@ export function updateMemory(setName, word, correctDefinitions) {
 
 export function hasSeenAllWords(setName) {
   const memory = getMemory(setName);
-  const words = getWords(setName);
+  const words = getWords(setName).map(item => item.word); // ✅ extraire les mots string
   return words.every(word => word in memory);
 }
 

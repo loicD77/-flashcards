@@ -1,6 +1,7 @@
 <script>
   import '../styles/global.css';
-   import { fetchDefinitions, resetMemory } from '$lib/dataManager'; 
+  import { fetchDefinitions, resetMemory, hasSeenAllWords } from '$lib/dataManager';
+
   import SelectGame from '../components/SelectGame.svelte';
   import Flashcard from '../components/Flashcard.svelte';
   import { sets } from '$lib/dataManager';
@@ -9,51 +10,50 @@
   let flashcards = [];
   let currentCard = null;
   let definitions = [];
-  let selectedDefinitions = [];  // État des cases à cocher
+  let selectedDefinitions = [];
   let showDefinitions = false;
 
   let showPerformance = false;
   let performanceData = [];
+  let allSeen = false;
 
-  // 🔁 Charge les définitions pour le mot sélectionné
   async function loadDefinitions(word) {
-    definitions = await fetchDefinitions(word); 
+    definitions = await fetchDefinitions(word);
     selectedDefinitions = new Array(definitions.length).fill(false);
     showDefinitions = false;
   }
 
-  // 🔀 Tire une carte aléatoire du set sélectionné
   function drawCard() {
     const randomIndex = Math.floor(Math.random() * flashcards.length);
     currentCard = flashcards[randomIndex];
     loadDefinitions(currentCard.word);
   }
 
-  // 🎮 Quand l'utilisateur choisit un set de cartes
   function onSelectGame(game) {
     selectedGame = game;
     flashcards = sets[game] || [];
-    drawCard(); 
+    drawCard();
+    checkIfAllSeen(); // vérifie dès qu'on change de set
   }
 
-  // ✅ Quand l'utilisateur clique sur "Valider"
   function handleValidation() {
-  drawCard(); // Passe à la carte suivante
-
-  // 🔁 Met à jour les performances si elles sont visibles
-  if (showPerformance) {
-    afficherPerformances();
+    drawCard();
+    if (showPerformance) {
+      afficherPerformances();
+    }
+    checkIfAllSeen();
   }
-}
 
-  // 🔁 Affiche les définitions
+  function checkIfAllSeen() {
+    if (selectedGame) {
+      allSeen = hasSeenAllWords(selectedGame);
+    }
+  }
+
   function flipCard() {
-    showDefinitions = true; 
+    showDefinitions = true;
   }
 
- 
-
-  // 📊 Affiche les performances enregistrées
   function afficherPerformances() {
     performanceData = [];
     Object.keys(localStorage).forEach((key) => {
@@ -67,23 +67,31 @@
     showPerformance = true;
   }
 
-
   function retourAccueil() {
-  selectedGame = null;
-  flashcards = [];
-  currentCard = null;
-  definitions = [];
-  selectedDefinitions = [];
-  showDefinitions = false;
-}
+    selectedGame = null;
+    flashcards = [];
+    currentCard = null;
+    definitions = [];
+    selectedDefinitions = [];
+    showDefinitions = false;
+    showPerformance = false;
+    allSeen = false;
+  }
 
-function handleResetMemory() {
-  resetMemory();
-  afficherPerformances(); // recharge les performances (vides)
-  alert("Performances supprimées !");
-}
+  function handleResetMemory() {
+    resetMemory(); // supprime tous les memory_
+    afficherPerformances();
+    alert("Tous les acquis ont été réinitialisés !");
+  }
 
-
+  function handleResetSetOnly() {
+    if (selectedGame) {
+      localStorage.removeItem(`memory_${selectedGame}`);
+      afficherPerformances();
+      alert(`Les acquis du set "${selectedGame}" ont été réinitialisés.`);
+      checkIfAllSeen(); // recheck
+    }
+  }
 </script>
 
 <div class="page">
@@ -114,9 +122,13 @@ function handleResetMemory() {
     </div>
 
     <button on:click={afficherPerformances}>Afficher mes acquis</button>
-    <button on:click={handleResetMemory}>Réinitialiser les acquis</button>
+
+    {#if allSeen}
+      <button on:click={handleResetSetOnly}>Réinitialiser les acquis du set actuel</button>
+    {/if}
+
+    <button on:click={handleResetMemory}>Réinitialiser tous les acquis</button>
     <button on:click={retourAccueil}>🏠 Retour à l'accueil</button>
-     
   {/if}
 
   {#if showPerformance}
@@ -152,5 +164,9 @@ function handleResetMemory() {
     margin-top: 2rem;
     padding: 1rem;
     border-top: 1px solid #ccc;
+  }
+
+  button {
+    margin: 0.5rem;
   }
 </style>
