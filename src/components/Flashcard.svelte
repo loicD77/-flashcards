@@ -21,19 +21,19 @@
   function saveToMemory() {
     const selectedDefs = definitions.filter((_, index) => selectedDefinitions[index]); // Ici la méthpde filter crée et retourne un nouveau tableau contenant tous les éléments du tableau d'origine (ici les définitions) qui remplissent une conditon déterminée par la fonction callback.
     const storedMemory = localStorage.getItem(`memory_${setName}`);
-    const memory = storedMemory ? JSON.parse(storedMemory) : {};
+    const memory = storedMemory ? JSON.parse(storedMemory) : {}; 
     memory[word] = selectedDefs;
-    localStorage.setItem(`memory_${setName}`, JSON.stringify(memory));
+    localStorage.setItem(`memory_${setName}`, JSON.stringify(memory)); // Selon la documentation : https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify , la méthode JSON.stringify() convertit une valeur JavaScript en chaîne JSON. Optionnellement, elle peut remplacer des valeurs ou spécifier les propriétés à inclure si un tableau de propriétés a été fourni.
     console.log("Données enregistrées dans la mémoire", memory);
   }
 
-  // ✅ Quand l’utilisateur clique sur “Valider”
+  // Quand l’utilisateur clique sur “Valider”
   function handleValidation() {
     saveToMemory();
     onValidate(); // Signal au parent pour passer à la carte suivante
   }
 
-  // 🧼 Réinitialisation complète de toutes les performances
+  //  Réinitialisation complète de toutes les performances
   function resetMemory() {
     Object.keys(localStorage).forEach((key) => { // Avec la boucle forEach on parcours chaque cas !
       if (key.startsWith('memory_')) {

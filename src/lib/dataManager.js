@@ -53,7 +53,7 @@ export function getRandomWord(setName) {      // (Selon la documentation https:/
 export async function fetchDefinitions(word) {  // (Selon  https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Statements/async_function) Une fonction asynchrone est une fonction précédée par le mot-clé async, et qui peut contenir le mot-clé await. async et await permettent un comportement asynchrone, basé sur une promesse (Promise), écrite de façon simple, et évitant de configurer explicitement les chaînes de promesse.
   try {
     const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`); // res permet la réponse serveur. L'opérateur await permet d'attendre la résolution d'une promesse (Promise). Il ne peut être utilisé qu'au sein d'une fonction asynchrone (définie avec l'instruction async function).(Selon https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Operators/await)
-    if (!res.ok) throw new Error(`No definition found for ${word}`);
+    if (!res.ok) throw new Error(`No definition found for ${word}`); // Selon https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Statements/throw l'instruction throw permet de lever une exception définie par l'utilisateur. L'exécution de la fonction courante sera stoppée (les instructions situées après l'instruction throw ne seront pas exécutées) et le contrôle sera passé au premier bloc catch de la pile d'appels. Si aucun bloc catch ne se trouve dans les fonctions de la pile d'appels, le programme sera terminé.
     const data = await res.json();
     if (!data[0]?.meanings) {
       console.error(`Pas de significations trouvées pour : ${word}`); // En cas d'erreur on affiche un message d'erreur à la console
@@ -81,16 +81,16 @@ export function updateMemory(setName, word, correctDefinitions) {
 
 export function hasSeenAllWords(setName) {
   const memory = getMemory(setName);
-  const words = getWords(setName).map(item => item.word); // ✅ extraire les mots string
-  return words.every(word => word in memory);
+  const words = getWords(setName).map(item => item.word); //  extraire les mots string
+  return words.every(word => word in memory); // Selon https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/every, la méthode every() permet de tester si tous les éléments d'un tableau vérifient une condition donnée par une fonction en argument. Cette méthode renvoie un booléen pour le résultat du test.
 }
 
 export function resetMemory() {
-  const keysToRemove = [];
+  const keysToRemove = []; // déclaration d'un tableau vide pour la mémoire effacé
 
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    if (key && key.startsWith('memory_')) {
+    if (key && key.startsWith('memory_')) { // Selon la documentation https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith , la méthode startsWith() renvoie un booléen indiquant si la chaine de caractères commence par la deuxième chaine de caractères fournie en argument.
       keysToRemove.push(key); // La méthode push() ajoute un ou plusieurs éléments à la fin d'un tableau et retourne la nouvelle taille du tableau.
     }
   }
