@@ -1,18 +1,20 @@
 <script>
+
+  // Les variables ci-dessous sont visible depuis un composant parent
   export let word;
-  export let definitions = [];
-  export let selectedDefinitions = []; // État des cases à cocher
+  export let definitions = []; // On crée un array pour les différentes définitions des mots
+  export let selectedDefinitions = []; // État des cases à cocher pour les différentes définitions
   export let onValidate;
   export let setName; // Nom du jeu (ex: "animals", "tech", etc.)
 
   let previousDefs = [];
 
-  // 🔁 Charger les définitions déjà trouvées par l’utilisateur
+  // Charger les définitions déjà trouvées par l’utilisateur
   $: if (definitions.length && setName && word) {
-    const storedMemory = localStorage.getItem(`memory_${setName}`);
-    const memory = storedMemory ? JSON.parse(storedMemory) : {};
-    previousDefs = memory[word] || [];
-    selectedDefinitions = definitions.map(def => previousDefs.includes(def));
+    const storedMemory = localStorage.getItem(`memory_${setName}`); // On récupère les items de la  base de données du navigateur
+    const memory = storedMemory ? JSON.parse(storedMemory) : {};   // Si quelque chose est présent, on le transforme en objet avec JSON.parse, sinon on mets un objet vide. Avec un opérateur ternaire
+    previousDefs = memory[word] || [];  // Je regarde si y'a déjà des définitions que j’avais cochées pour ce mot
+    selectedDefinitions = definitions.map(def => previousDefs.includes(def)); // On a une fonctionné fléché à l'aide de map
   }
 
   // 💾 Sauvegarde dans localStorage
@@ -33,7 +35,7 @@
 
   // 🧼 Réinitialisation complète de toutes les performances
   function resetMemory() {
-    Object.keys(localStorage).forEach((key) => {
+    Object.keys(localStorage).forEach((key) => { // Avec la boucle forEach on parcours chaque cas !
       if (key.startsWith('memory_')) {
         localStorage.removeItem(key);
       }
