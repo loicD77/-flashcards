@@ -149,3 +149,68 @@ body {
   ul li {
     margin-bottom: 0.75rem;
   }
+
+  .previous-highlight {
+    background-color: #e6f4ea;
+    border-left: 5px solid #34a853;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    color: #1a3e2c;
+    font-size: 0.95rem;
+  }
+  
+  /* ========================= */
+/* 🎮 SelectGame Buttons     */
+/* ========================= */
+
+.set-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.set-button {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #0070f3;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.set-button:hover {
+  transform: scale(1.05);
+}
+
+.set-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.set-button:hover .set-image {
+  opacity: 0.5;
+}
+
+.set-label {
+  position: relative;
+  z-index: 1;
+}

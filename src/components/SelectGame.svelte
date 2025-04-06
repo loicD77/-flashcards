@@ -1,9 +1,9 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { getSets } from '$lib/dataManager';
+  import { getSets } from '$lib/dataManager'; // On a importé la fonction getSets provenant de dataManager.js
 
   const dispatch = createEventDispatcher();
-  const sets = getSets();
+  const sets = getSets(); // Ici la fonction nous permet d'obtenir une des collections
 
   // Utilisation du dispatch pour émettre l'événement 'gameSelected'
   function selectSet(set) {
@@ -11,13 +11,21 @@
   }
 </script>
 
-<h2 class="text-xl font-bold mb-2">Choose a set:</h2>
-<ul class="space-y-2">
-  {#each sets as set}
-    <li>
-      <button class="px-4 py-2 bg-blue-500 text-white rounded" on:click={() => selectSet(set)}>
-        {set}
-      </button>
-    </li>
-  {/each}
-</ul>
+<h2>Choisis un jeu :</h2>
+
+<div class="set-container">
+  <button class="set-button" on:click={() => selectSet('animals')}>
+    <img class="set-image" src="/img/animal.jpg" alt="Animals" />
+    <span class="set-label">🐾 Animals</span>
+  </button>
+
+  <button class="set-button" on:click={() => selectSet('tech')}>
+    <img class="set-image" src="/img/informatique.jpg" alt="Tech" />
+    <span class="set-label">💻 Tech</span>
+  </button>
+
+  <button class="set-button" on:click={() => selectSet('emotions')}>
+    <img class="set-image" src="/img/emoticons.png" alt="Emotions" />
+    <span class="set-label">😊 Emotions</span>
+  </button>
+</div>

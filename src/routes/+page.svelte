@@ -77,6 +77,13 @@
   showDefinitions = false;
 }
 
+function handleResetMemory() {
+  resetMemory();
+  afficherPerformances(); // recharge les performances (vides)
+  alert("Performances supprimées !");
+}
+
+
 </script>
 
 <div class="page">
@@ -107,9 +114,9 @@
     </div>
 
     <button on:click={afficherPerformances}>Afficher mes performances</button>
-    <button on:click={resetMemory}>Réinitialiser les performances</button>
-     <button on:click={retourAccueil}>🏠 Retour à l'accueil</button>
-   
+    <button on:click={handleResetMemory}>Réinitialiser les performances</button>
+    <button on:click={retourAccueil}>🏠 Retour à l'accueil</button>
+     
   {/if}
 
   {#if showPerformance}

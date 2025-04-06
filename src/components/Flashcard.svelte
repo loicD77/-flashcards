@@ -47,8 +47,11 @@
   <h3>Définitions pour le mot : {word}</h3>
 
   {#if previousDefs.length > 0}
-    <p class="previous">Tu avais trouvé : {previousDefs.join(', ')}</p>
-  {/if}
+  <div class="previous-highlight">
+    🧠 <strong>Tu avais trouvé :</strong> {previousDefs.join(', ')}
+  </div>
+{/if}
+
 
   <div class="definitions-list">
     {#each definitions as def, index}
