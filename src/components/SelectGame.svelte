@@ -13,6 +13,12 @@
 
 <h2>Choisis un jeu :</h2>
 
+<!-- 
+Selon https://developer.mozilla.org/fr/docs/Web/API/HTMLElement/click : 
+Lorsque la méthode click() est appelée sur un élément qui la prend en charge (par exemple un <input>), 
+elle déclenche l’événement click de cet élément. L’événement remonte ensuite dans l’arbre DOM 
+et peut déclencher les événements click des éléments parents (bubbling).
+-->
 
 <div class="set-container">
   <button class="set-button" on:click={() => selectSet('animals')}>  

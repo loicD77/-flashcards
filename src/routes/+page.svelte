@@ -6,24 +6,24 @@
   import Flashcard from '../components/Flashcard.svelte';
   import { sets } from '$lib/dataManager';
 
-  let selectedGame = null;
-  let flashcards = [];
-  let currentCard = null;
-  let definitions = [];
-  let selectedDefinitions = [];
-  let showDefinitions = false;
+  let selectedGame = null; // Cette variable sans valeur permet de choisir les "set" ou jeux
+  let flashcards = []; // tableau pour les cartes 
+  let currentCard = null; // Carte récente
+  let definitions = []; // Array pour les définitions
+  let selectedDefinitions = []; // Array pour la sélection des définitions
+  let showDefinitions = false; // L'affichage des définitions est par défaut caché
 
-  let showPerformance = false;
-  let performanceData = [];
+  let showPerformance = false; // Les acquis de l'utilisateur sont par défaut caché ! 
+  let performanceData = []; // Array vide par défaut pour les données des acquis
   let allSeen = false;
 
-  async function loadDefinitions(word) {
+  async function loadDefinitions(word) {  // Fonction pour le chargement des définitions
     definitions = await fetchDefinitions(word);
-    selectedDefinitions = new Array(definitions.length).fill(false);
+    selectedDefinitions = new Array(definitions.length).fill(false); // La méthode fill() remplit tous les éléments d'un tableau entre deux index avec une valeur statique. La valeur de l'index de fin n'est pas incluse. Cette méthode renvoie le tableau modifié.
     showDefinitions = false;
   }
 
-  function drawCard() {
+  function drawCard() {  // Fonction pour créer les cartes avec fonctions mathématiques (.floor,.random ...)
     const randomIndex = Math.floor(Math.random() * flashcards.length);
     currentCard = flashcards[randomIndex];
     loadDefinitions(currentCard.word);
@@ -37,7 +37,7 @@
   }
 
   function handleValidation() {
-    drawCard();
+    drawCard(); // On appelle la fonction drawCard()
     if (showPerformance) {
       afficherPerformances();
     }
